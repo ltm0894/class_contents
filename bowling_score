@@ -1,0 +1,111 @@
+#include <stdio.h>
+
+int main(void)
+{
+	int frameScores[11] = { 0, };
+
+	// 1 ~ 9 frame
+	int scores[10][3] = { {0, 0}, };
+
+	for (int i = 1; i < 10; ++i) {
+		// i frame 1st cast.
+		printf("%d frame first cast : ", i);
+		scanf("%d", &scores[i][1]);
+
+		// 1) i-1 frame spare --> i-1 frame score !	
+		if (i >= 2 && scores[i - 1][1] + scores[i - 1][2] == 10 && scores[i - 1][1] != 10) {
+			int bonus = scores[i][1];
+			frameScores[i - 1] = frameScores[i - 2] + 10 + bonus;
+			printf("%d frame score : %d\n", i - 1, frameScores[i - 1]);
+		}
+		// 2) i-2 frame X and i-1 frame X --> i-2 frame score !
+		else if (i >= 3 && scores[i - 2][1] == 10 && scores[i - 1][1] == 10) {
+			int bonus = 10 + scores[i][1];		// 10 == scores[i-1][1]
+			frameScores[i - 2] = frameScores[i - 3] + 10 + bonus;
+			printf("%d frame score : %d\n", i - 2, frameScores[i - 2]);
+		}
+		// if i frame first cast != 10 --> i frame 2nd case
+		if (scores[i][1] != 10) {
+			printf("%d frame second cast : ", i);
+			scanf("%d", &scores[i][2]);
+
+			// 1) i-1 frame X --> i-1 frame score !
+			if (i >= 2 && scores[i - 1][1] == 10) {
+				int bonus = scores[i][1] + scores[i][2];
+				frameScores[i - 1] = frameScores[i - 2] + 10 + bonus;
+				printf("%d frame score : %d\n", i - 1, frameScores[i - 1]);
+			}
+			// 2) i frame 1st + 2nd < 10 --> i frame score !
+			if (scores[i][1] + scores[i][2] < 10) {
+				//int bonus = 0;
+				frameScores[i] = frameScores[i - 1] + scores[i][1] + scores[i][2];
+				printf("%d frame score : %d\n", i, frameScores[i]);
+			}
+		}
+	}
+
+	// 10 frame
+	int scores10[4] = { 0, };
+
+	// 10 frame 1st cast.
+	printf("10 frame first cast : ");
+	scanf("%d", &scores10[1]);
+
+	// 1) 9 frame spare --> 9 frame score !	
+	if (scores[9][1] + scores[9][2] == 10 && scores[9][1] != 10) {
+		int bonus = scores10[1];
+		frameScores[9] = frameScores[8] + 10 + bonus;
+		printf("9 frame score : %d", frameScores[9]);
+	}
+	// 2) 8 frame X and 8 frame X --> 8 frame score !
+	else if (scores[8][1] == 10 && scores[9][1] == 10) {
+		int bonus = 10 + scores10[1];		// 10 == scores[i-1][1]
+		frameScores[8] = frameScores[7] + 10 + bonus;
+		printf("8 frame score : %d\n", frameScores[8]);
+	}
+
+
+	// if 10 frame first cast != 10 --> 10 frame 2nd case
+	if (scores10[1] != 10) {
+		printf("10 frame second cast : ");
+		scanf("%d", &scores10[2]);
+		// 1) 9 frame X --> 9 frame score !
+		if (scores[9][1] == 10) {
+			int bonus = scores10[1] + scores10[2];
+			frameScores[9] = frameScores[8] + 10 + bonus;
+			printf("9 frame score : %d\n", frameScores[9]);
+		}
+		//int bonus = 0;
+		frameScores[10] = frameScores[9] + scores10[1] + scores10[2];
+		//printf("10 frame score : %d\n", frameScores[10]);
+		printf("10 frame bonus last cast : ");
+		scanf("%d", &scores10[3]);
+		frameScores[10] += scores10[3];
+		
+		printf("10 frame score : %d\n", frameScores[10]);
+	}
+	if (scores10[1] == 10) {
+		printf("10 frame bonus second cast : ");
+		scanf("%d", &scores10[2]);
+		
+		if (scores[9][1] == 10) {
+			int bonus = scores10[1] + scores10[2];
+			frameScores[9] = frameScores[8] + 10 + bonus;
+			printf("9 frame score : %d\n", frameScores[9]);
+		}
+		frameScores[10] = frameScores[9] + 10 + scores10[2];
+		printf("10 frame bonus last cast : ");
+		scanf("%d", &scores10[3]);
+		frameScores[10] += scores10[3];
+
+		printf("10 frame score : %d\n", frameScores[10]);
+		 
+	}
+
+	/*
+		printf("10 frame last cast : ");
+		scanf("%d", &scores10[3]);
+		printf("10 frame score : %d\n", frameScores[10]);
+	*/
+	return 0;
+}
