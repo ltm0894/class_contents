@@ -1,0 +1,42 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using std::cin; using std::cout;
+using std::vector;
+using std::string;
+using std::endl;
+
+int main()
+{
+    vector<string> titles;
+    // read
+    vector<string>::size_type maxLen = 0;
+    string line;
+    while(getline(cin, line)) {
+        titles.push_back(line);
+        maxLen = std::max(maxLen, line.size());
+//        if (maxLen < line.size()) {
+//            maxLen = line.size();
+//        }
+
+    }
+
+    vector<string> frameTitles;
+    // push_back.
+    vector<string>::size_type i;
+    frameTitles.push_back(string(maxLen + 4, '*'));
+    for (i = 0; i < titles.size(); ++i) {
+        string space(maxLen - titles[i].size(), ' ');
+        //frameTitles[i] = "* " + titles[i] + space + " ";  X
+        frameTitles.push_back("* " + titles[i] + space + " *");
+    }
+    frameTitles.push_back(string(maxLen + 4, '*'));
+
+    for (i = 0; i < frameTitles.size(); ++i) {
+        cout << frameTitles[i] << endl;
+    }
+
+    return 0;
+}
