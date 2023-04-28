@@ -1,0 +1,35 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+
+using std::cout; using std::cin;
+using std::endl;
+using std::vector;
+using std::map;
+using std::string;
+
+int main()
+{
+    map<string, vector<int> > wordLines;
+
+    int lineNumber = 1;
+    string s;
+    while (getline(cin, s)) {
+        vector<string> v = split(s);
+        for (auto it = v.cbegin(); it != v.cend(); ++it) {
+            wordLines[*it].push_back(lineNumber);
+        }
+        ++lineNumber;
+    }
+
+    for (auto it = wordLines.cbegin(); it != wordLines.cend(); ++it) {
+        cout << it->first << " : ";
+        for (auto it2 = it->second.cbegin(); it2 != it->second.cend(); ++it2) {
+            cout << *it2 << ", ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
